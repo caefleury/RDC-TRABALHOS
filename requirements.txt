@@ -1,0 +1,9 @@
+Flask
+flask-socketio
+Flask-SQLAlchemy
+flask-login
+pytest
+python-dotenv>=1.0.1
+pymysql
+cryptography
+bcrypt
