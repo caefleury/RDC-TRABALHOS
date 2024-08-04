@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Group Chat - Telegram.io</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="text-center">Group Chat</h2>
+
+      <div class="mt-4">
+        <form id="sendMessageForm">
+          <div class="form-group">
+            <label for="messageContent">Message</label>
+            <input
+              type="text"
+              class="form-control"
+              id="messageContent"
+              require
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+      </div>
+      <div class="mt-4">
+        <div id="messagesList" class="list-group">
+          {% for message in messages %}
+          <div class="list-group-item">
+            <strong>{{ message.username }}:</strong> {{ message.content }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script>
+      $(document).ready(function () {
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        var chatRoomId = {{ chat_room_id }};
+
+        // Join the chat room
+        socket.emit('join_room', { chat_room_id: chatRoomId });
+
+        socket.on('connect', function() {
+          console.log('Connected to the server');
+          // Join the room
+          socket.emit('join_room', { chat_room_id: chatRoomId });
+        });
+
+        // Fetch messages for the chat room
+        $.ajax({
+          url: "/chat_room/" + chatRoomId + "/messages",
+          method: "GET",
+          success: function (messages) {
+            var messagesList = $("#messagesList");
+            messagesList.empty();
+            messages.forEach(function (message) {
+              messagesList.append(
+                '<div class="list-group-item">' +
+                '<strong>' + message.username + ':</strong> ' +
+                message.content +
+                '</div>'
+              );
+            });
+          },
+          error: function (error) {
+            console.error("Error fetching messages:", error);
+          },
+        });
+
+        // Handle new messages
+        socket.on('new_message', function (data) {
+          var messagesList = $("#messagesList");
+          messagesList.append(
+            '<div class="list-group-item">' +
+            '<strong>' + data.username + ':</strong> ' +
+            data.content +
+            '</div>'
+          );
+        });
+
+        // Handle send message form submission
+        $("#sendMessageForm").on("submit", function (event) {
+          event.preventDefault();
+          var messageContent = $("#messageContent").val();
+          socket.emit('send_message', {
+            chat_room_id: chatRoomId,
+            message: messageContent,
+            sender_type: 'user'
+          });
+          $("#messageContent").val('');
+          location.reload(); 
+        });
+      });
+    </script>
+  </body>
+</html>

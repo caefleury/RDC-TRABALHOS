@@ -5,11 +5,11 @@ services:
     restart: "always"
     environment:
       MYSQL_USER: "admin"
-      MYSQL_PASSWORD: "password"
-      MYSQL_DATABASE: "flask-crud"
-      MYSQL_ROOT_PASSWORD: "admin123"
+      MYSQL_PASSWORD: "admin12345"
+      MYSQL_DATABASE: "rdc-flask-crud"
+      MYSQL_ROOT_PASSWORD: "admin12345"
     ports:
-      - "3306:3306"
+      - "3333:3306"
     expose:
       - "3306"
     volumes:
