@@ -1,5 +1,6 @@
 # RDC-TRABALHOS
-Projetos da matéria REDES DE COMPUTADORES 
+
+Projetos da matéria REDES DE COMPUTADORES
 
 ## Projeto 1
 
@@ -25,8 +26,35 @@ utilizada uma aplicação de rede.
 Deverá ser escolhida um tipo de aplicação para desenvolver e implementar seu próprio
 protocolo. No relatório devem ser descritos tipo, formato e tamanho de mensagens, além da
 sequência de transmissão ̃ ao delas para a implementação das funcionalidades requeridas. As
-aplicações podem ser: 
+aplicações podem ser:
 
-1. Streaming de vídeo 
-2. Chat em grupo ou 
+1. Streaming de vídeo
+2. Chat em grupo ou
 3. Utilitário desincronização de arquivos.
+
+## Projeto de Chat em Grupo
+
+Este projeto é uma aplicação de chat em grupo desenvolvida utilizando Flask para o backend e WebSockets para comunicação em tempo real. A interface do usuário foi construída com HTML, CSS (Bootstrap) e JavaScript (jQuery e Socket.IO).
+
+### Estrutura do Projeto
+
+- `app.py`: Arquivo principal que inicializa a aplicação Flask.
+- `models.py`: Define os modelos de dados usando SQLAlchemy.
+- `routes.py`: Define as rotas da aplicação.
+- `templates/`: Diretório que contém os arquivos HTML.
+- `static/`: Diretório que contém arquivos estáticos como CSS e JavaScript.
+
+### Pré-requisitos
+
+- Python 3.8 ou superior
+- Pip (gerenciador de pacotes do Python)
+- Virtualenv (opcional, mas recomendado)
+
+### Tecnologias Utilizadas
+
+- Flask
+- Flask-SQLAlchemy
+- Flask-Migrate
+- Flask-SocketIO
+- HTML, CSS (Bootstrap)
+- JavaScript (jQuery, Socket.IO)
